@@ -1,0 +1,417 @@
+var roomid;
+
+$(function () {
+	var dateInfo = formatDate();
+	
+	
+	$("#sendfile").change(function(){
+		var formData = new FormData();   
+		formData.append('attachedFiles', $(this).prop('files')[0]);		
+		$.ajax({
+			url:"/chat/file_upload",
+			type:'post',
+			dataType:"JSON",
+			data:formData,						
+			cache: false,
+			contentType: false,
+			processData: false,	
+			beforeSend : function(xhr){
+				blockUI();
+			},
+			success: function(data){ 
+				
+				
+				sendMessage("<img src='"+data.path+"' onclick='window.open(this.src);'");
+				$("#sendfile").val('');
+				return false;
+			},
+			complete : function(xhr, textStatus) {
+				$.unblockUI();
+			},					
+			error:function(request, status, error){
+				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});	
+	});
+	 if(room_idx)
+	 {
+		
+		 realTime();
+		 
+		 roomRealTime();
+	 }
+	 $("#sendBtn").click(function(){
+		var message = $.trim($("#message").val());
+		if(!message)
+		{
+			alert("메세지를 입력해 주세요");
+			return false;
+		}
+		sendMessage(message);
+	});
+	$("#message").on("keyup",function(key){  
+		if(key.keyCode==13) {  
+			var message = $.trim($("#message").val());
+			if(!message)
+			{
+				alert("메세지를 입력해 주세요");
+				return false;
+			}
+			sendMessage(message);
+		} 
+	});
+ });
+ function sendMessage(message)
+ {
+	 var member_idx = $("#member_idx").val();
+	var ip = $("#ip").val();
+	var agent = $("#agent").val();
+	var formData = new FormData();   
+	formData.append('member_idx', member_idx);
+	formData.append('ip', ip);
+	formData.append('agent', agent);
+	$.ajax({
+		url:"/chat/room_check",
+		type:'post',
+		dataType:"JSON",
+		data:formData,						
+		cache: false,
+		contentType: false,
+		processData: false,	
+		beforeSend : function(xhr){
+			blockUI();
+		},
+		success: function(data){ 
+			
+			if(data.newFlag == true)
+			{
+				room_idx = data.room_idx;					
+				realTime();
+				
+				
+			}
+			
+			firebaseAdd(message, data.newFlag, data.room_idx, data.ymd, data.his)				
+			return false;
+		},
+		complete : function(xhr, textStatus) {
+			$.unblockUI();
+		},					
+		error:function(request, status, error){
+			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		}
+	});	
+ }
+ 
+ 
+ function sendMessage2(message)
+ {
+	 var member_idx = $("#member_idx").val();
+	var ip = $("#ip").val();
+	var agent = $("#agent").val();
+	var formData = new FormData();   
+	formData.append('member_idx', member_idx);
+	formData.append('ip', ip);
+	formData.append('agent', agent);
+	$.ajax({
+		url:"/chat/room_check",
+		type:'post',
+		dataType:"JSON",
+		data:formData,						
+		cache: false,
+		contentType: false,
+		processData: false,	
+		beforeSend : function(xhr){
+			blockUI();
+		},
+		success: function(data){ 
+			
+			if(data.newFlag == true)
+			{
+				room_idx = data.room_idx;					
+				realTime();
+				
+			}
+			firebaseAdd2(message, data.newFlag, data.room_idx, data.ymd, data.his)				
+			return false;
+		},
+		complete : function(xhr, textStatus) {
+			$.unblockUI();
+		},					
+		error:function(request, status, error){
+			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		}
+	});	
+ }
+ 
+ function roomRealTime()
+ {
+	 db.collection('room').where('room_idx', '==', room_idx).onSnapshot(function(snapshot) {		 
+		 snapshot.docChanges().forEach(function(change) {	
+			 roomid = change.doc.id;
+		 });
+	 });
+ }
+ var temp = true;
+ 
+ function realTime(){		
+	var member_idx = $("#member_idx").val();
+	var ip = $("#ip").val();
+	var agent = $("#agent").val();
+	console.log(room_idx);
+	db.collection('chat').where('room_idx', '==', room_idx).orderBy("time").onSnapshot(function(snapshot) {
+		var newMessage = '';	
+		var message_type = "";
+		
+		
+		snapshot.docChanges().forEach(function(change) {			
+			if (change.type === "added") {
+				message_type = change.doc.data().message; //change.doc.data().msgType;
+					
+				//var dayInfo = formatDate(change.doc.data().time.seconds);
+				if (change.doc.data().msgType == 'customer') {
+					/*
+					if(!$('.chat').hasClass("on"))
+					{
+							$("#audioBtn").click();
+							$('.chat').addClass("on");
+					}
+					*/
+					
+					
+						
+						
+						newMessage += '<li class="right">'+
+									'		<div class="name">'+
+									'			<img src="/assets/front/images/icons/client.png" alt="">'+
+									'			<span>고객님</span>'+
+									'		</div>'+
+									'		<div class="chat-content client-bg">'+
+									'			<div class="content mb-15">'+
+									'				'+change.doc.data().message+
+									'			</div>'+
+									'			<div class="date">'+
+									'				'+change.doc.data().ymd+' '+change.doc.data().hi+
+									'			</div>'+
+									'		</div>'+
+									'	</li>';
+					
+						
+						
+						
+				}else{
+					
+						/*
+						if(!$('.chat').hasClass("on"))
+						{
+							$('.chat').addClass("on");
+						}
+						$("#audioBtn").click();
+						*/
+						
+						if(temp == false)
+						{
+							if(change.doc.data().message == commessage)
+							{
+								
+								$(".center-modal").show();
+								$("#audioBtn").click();
+							}
+							else
+							{
+								if(!$('.chat').hasClass("on"))
+								{
+									$('.chat').addClass("on");
+								}
+								
+								$("#audioBtn").click();
+							}
+						}
+						
+						//if(change.doc.data().message != orderMessage)
+						//{
+							newMessage += '<li class="left">'+
+										'		<div class="name">'+
+										'			<img src="/assets/front/images/icons/support.png" alt="">'+
+										'			<span>상담사</span>'+
+										'		</div>'+
+										'		<div class="chat-content support-bg">'+
+										'			<div class="content mb-15">'+
+										'				'+change.doc.data().message+
+										'			</div>'+
+										'			<div class="date">'+
+										'				'+change.doc.data().ymd+' '+change.doc.data().hi+
+										'			</div>'+
+										'		</div>'+
+										'	</li>';
+						//}
+				}
+			
+				
+			}
+			if (change.type === "modified") {
+			   
+			}
+			if (change.type === "removed") {
+				
+			}			
+		});
+		
+		if(message_type == commessage)
+		{
+			/*
+			if(!$('.chat').hasClass("on"))
+			{
+				$('.chat').addClass("on");
+			}
+			*/
+		}
+		
+		if(message_type == orderMessage)
+		{
+			
+			//$(".modal").hide();
+			//$(".complete").show();
+			
+			if(!$('.chat').hasClass("on"))
+			{
+				$('.chat').addClass("on");
+			}
+			
+			
+		}
+		
+		$("#chatArea").append(newMessage);
+		$(".chat-box").scrollTop($(".chat-box")[0].scrollHeight);
+		temp = false;
+		
+	});	
+	
+}
+function firebaseAdd2(message, newFlag, room_idx, ymd, his)
+{
+	if(newFlag == true)
+	{
+		
+		db.collection("room").add({
+			room_idx: room_idx,
+			readFlag: ""
+		})
+		.then(function(docRef) {	
+			
+		})
+		.catch(function(error) {
+			console.error("Error adding document: ", error);
+		});
+		roomRealTime();
+		
+		
+	}
+	
+	
+	var dateInfo = formatDate();
+	
+	
+	var member_idx = $("#member_idx").val();
+	var ip = $("#ip").val();
+	var agent = $("#agent").val();	
+	db.collection("chat").add({
+		room_idx: room_idx,
+		message : message,
+		member_idx : member_idx,
+		ip : ip,
+		agent : agent,
+		ymd : ymd,
+		hi : his,
+		msgType : "supporter",
+		time : firebase.firestore.FieldValue.serverTimestamp()
+	})
+	.then(function(docRef) {	
+		$("#message").val('');		
+		
+		db.collection("room").doc(roomid).update({readFlag: "1"});
+		
+		setTimeout(function(){ location.reload(); }, 1000);
+
+	})
+	.catch(function(error) {
+		console.error("Error adding document: ", error);
+	});
+ }
+
+function firebaseAdd(message, newFlag, room_idx, ymd, his)
+{
+	if(newFlag == true)
+	{
+		
+		db.collection("room").add({
+			room_idx: room_idx,
+			readFlag: ""
+		})
+		.then(function(docRef) {	
+			
+		})
+		.catch(function(error) {
+			console.error("Error adding document: ", error);
+		});
+		roomRealTime();
+		
+		
+	}
+	
+	
+	var dateInfo = formatDate();
+	
+	var member_idx = $("#member_idx").val();
+	var ip = $("#ip").val();
+	var agent = $("#agent").val();	
+		console.log(member_idx);
+		console.log(ip);
+		console.log(agent);
+
+	db.collection("chat").add({
+		room_idx: parseInt(room_idx),
+		message : message,
+		member_idx : member_idx,
+		ip : ip,
+		agent : agent,
+		ymd : ymd,
+		hi : his,
+		msgType : "customer",
+		time : new Date()
+	})
+	.then(function(docRef) {	
+		$("#message").val('');	
+			docRef.get().then(function(doc) {
+			if (doc.exists) {
+				let data = doc.data();
+				console.log("등록된 메시지:", data);
+				// 여기서 data 를 UI에 반영하거나 다른 처리 가능
+			} else {
+				console.log("문서 없음");
+			}
+		});
+	
+		db.collection("room").doc(roomid).update({readFlag: "1"});
+	})
+	.catch(function(error) {
+		console.error("Error adding document: ", error);
+	});
+ }
+ function formatDate(date) {
+    var d = new Date(),    
+    month = '' + (d.getMonth() + 1) , 
+    day = '' + d.getDate(), 
+    year = d.getYear(),
+	hours = d.getHours(),
+	minutes = d.getMinutes();
+    if (month.length < 2) month = '0' + month; 
+    if (day.length < 2) day = '0' + day; 
+    var ymd = [month, day].join('/');
+	var hi = [hours, minutes].join(':');
+    return [ymd, hi];
+	
+}

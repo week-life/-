@@ -1,0 +1,229 @@
+@media screen and (max-width: 519px) {
+	.wrap {
+		padding: 0 8px;
+	}
+	.wrap.header {
+		padding: 0;
+	}
+	.modal .cont {
+		max-width: calc(100% - 32px);
+	}
+	.modal .cont .tit-box {
+		padding: 15px;
+	}
+	.divider {
+		margin: 0 5px;
+	}
+	.rc-txt {
+		display: contents;
+	}
+	.modal .cont .tit-box .right-box .my-chat {
+		padding: 5px 15px;
+	}
+	.nexon-link img {
+		margin-right: 0 !important;
+	}
+}
+@media screen and (max-width: 480px) {
+	.header-wrap .logo-box p {
+		font-size: 14px;
+	}
+	.header-wrap .welcome .expl {
+		font-size: 14px;
+	}
+	.header-wrap .welcome .expl b {
+		font-size: 16px;
+	}
+	.header-wrap .welcome {
+		flex-wrap: wrap;
+		row-gap: 10px;
+	}
+	.header-wrap .welcome .btn-wrap {
+		width: 100%;
+	}
+	.header-wrap .welcome .btn-wrap a {
+		width: 50%;
+		justify-content: center;
+	}
+	.bc-box {
+		margin-bottom: 10px;
+	}
+	.bc-box .simple-content {
+		font-size: 14px;
+	}
+	.bc-box .simple-content img {
+		width: 15px;
+		height: 15px;
+	}
+	.rc-box {
+		margin-bottom: 10px;
+	}
+	.rc-box .simple-tit span {
+		font-size: 14px;
+	}
+	.rc-box .simple-tit .bell {
+		height: 17px;
+	}
+	.rc-box .simple-tit .right-arrow {
+		height: 13px;
+	}
+	.rc-box .basic-tit {
+		font-size: 14px;
+	}
+	.rc-box .basic-tit img {
+		height: 17px;
+	}
+	.wc-box .simple-tit {
+		align-items: flex-start;
+	}
+	.wc-box .simple-tit span {
+		font-size: 16px;
+	}
+	.wc-box .simple-tit .gift {
+		height: 17px;
+	}
+	.expl-box {
+		row-gap: 5px;
+		margin-top: 10px;
+	}
+	.expl-box p {
+		font-size: 14px;
+	}
+	.expl-box .expl-sub {
+		padding-left: 0;
+		margin-bottom: 10px;
+	}
+	.expl-box .expl-sub p {
+		text-indent: 0;
+		margin-left: 0;
+		font-weight: 400;
+	}
+	.dr-btn-wrap a {
+		padding: 15px 5px;
+	}
+	.dr-btn-wrap a span {
+		font-size: 14px;
+	}
+	.dr-btn-wrap a img {
+		width: 17px;
+		height: 17px;
+	}
+	.input-wrap {
+		row-gap: 15px;
+	}
+	.input-wrap .box input[type="text"] {
+		font-size: 14px;
+	}
+	.input-wrap .box input[type="password"] {
+		font-size: 14px;
+	}
+	.input-wrap .box select {
+		font-size: 14px;
+	}
+	.input-wrap .box p img {
+		width: 15px;
+		height: 15px;
+	}
+	.input-wrap label {
+		font-size: 14px;
+	}
+	.input-wrap .box textarea {
+		font-size: 14px;
+	}
+	.bc-box .big-tit {
+		font-size: 16px;
+	}
+	.expl-box {
+		padding-left: 0;
+	}
+	.expl-box p img {
+		width: 13px;
+		height: 13px;
+	}
+	.expl-box p.wc-txt {
+		font-size: 14px !important;
+	}
+	.terms-wrap label {
+		font-size: 14px;
+	}
+	.apply-wrap button {
+		font-size: 14px;
+	}
+	.bottom-wrap .bottom-nav li a {
+		font-size: 14px;
+	}
+	.bottom-wrap .bottom-nav li a img {
+		width: auto;
+		height: 20px;
+	}
+	.bottom-wrap .bottom-nav .coupon-cnt {
+		padding: 5px 15px;
+	}
+	.input-wrap .box .radio-column .coupon-box input[type="number"] {
+		font-size: 14px;
+	}
+	.burning-select {
+		flex-wrap: wrap;
+		row-gap: 5px;
+	}
+	.burning-select select {
+		width: 100%;
+		flex: inherit;
+	}
+	.burning-select input {
+		width: 100%;
+	}
+	.chat-log li {
+		margin-bottom: 15px;
+	}
+	.chat-log li .name {
+		font-size: 14px;
+	}
+	.chat-log li .name img {
+		width: 17px;
+	}
+	.chat-cont .write-box input {
+		font-size: 14px;
+	}
+	.faq-content .faq-tit span {
+		font-size: 14px;
+	}
+	.faq-content .faq-tit span img {
+		width: 15px;
+		height: 15px;
+	}
+	.faq-content .f-content {
+		font-size: 14px;
+		margin-top: 10px;
+	}
+	.faq-content .faq-tit .faq-arrow {
+		width: 12px;
+	}
+	.coupon-box .coupon-cnt {
+		font-size: 14px;
+	}
+	.coupon-box .coupon-list li {
+		font-size: 14px;
+	}
+	.history-box .history-cnt {
+		font-size: 14px;
+	}
+	.history-box .history-cnt .bell {
+		height: 17px;
+	}
+	.history-box .history-list li {
+		font-size: 14px;
+	}
+	.history-box .history-list li .date {
+		font-size: 13px;
+	}
+	.nexon-link a {
+		font-size: 14px;
+	}
+	.nexon-link img {
+		width: 17px !important;
+	}
+	.terms-wrap .box {
+		margin-top: 15px;
+	}
+}
